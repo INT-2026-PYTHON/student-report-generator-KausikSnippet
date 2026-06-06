@@ -5,6 +5,9 @@ needing any file I/O. In a real project this might be a database query or
 an API call; here it's just a Python list of dicts.
 """
 
+from problem.starter.gradebook import stats
+
+
 RECORDS: list[dict] = [
     {"name": "Alice",   "subject": "Math",    "score": 88},
     {"name": "Alice",   "subject": "Science", "score": 92},
@@ -19,3 +22,20 @@ RECORDS: list[dict] = [
     {"name": "Diana",   "subject": "Science", "score": 70},
     {"name": "Diana",   "subject": "English", "score": 65},
 ]
+
+def format_report(records):
+    report = {}
+    for record in records:
+        name = record["name"]
+        score = record["score"]
+
+        if name not in report:
+            report[name] = {"total": 0, "count": 0}
+            report[name]["total"] += score
+            report[name]["count"] += 1
+            lines = []
+            for name in report.item():
+                avg = stats["total"] / stats["count"]
+                lines.append(f"{name}: Average = {avg:.2f}")
+                return "\n".join(lines)
+            
